@@ -1,5 +1,6 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { Gif } from '../interfaces/gif';
+import { of } from 'rxjs';
 
 export interface GifsState {
   gifs: Gif[];
@@ -16,4 +17,17 @@ export class RedditService {
 
   // selectors
   gifs = computed(() => this.state().gifs);
+
+  // sources
+  gifsLoaded$ = of([
+    {
+      src: '',
+      author: '',
+      name: '',
+      permalink: '',
+      title: 'test gif',
+      thumnail: '',
+      comments: 0,
+    },
+  ]);
 }
