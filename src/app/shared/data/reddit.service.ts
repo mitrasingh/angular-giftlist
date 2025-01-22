@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { Gif } from '../interfaces/gif';
 
 export interface GifsState {
@@ -9,7 +9,11 @@ export interface GifsState {
   providedIn: 'root',
 })
 export class RedditService {
+  // state
   private state = signal<GifsState>({
     gifs: [],
   });
+
+  // selectors
+  gifs = computed(() => this.state().gifs);
 }
