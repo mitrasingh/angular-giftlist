@@ -5,7 +5,10 @@ import { GiftListComponent } from './ui/gif-list.component';
   selector: 'app-home',
   template: `
     <h1>Home</h1>
-    <app-gif-list [gifs]="this.redditService.gifs()"></app-gif-list>
+    <app-gif-list
+      [gifs]="this.redditService.gifs()"
+      class="grid-container"
+    ></app-gif-list>
   `,
   imports: [GiftListComponent],
 })
