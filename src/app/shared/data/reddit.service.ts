@@ -1,6 +1,7 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { Gif } from '../interfaces/gif';
 import { of } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export interface GifsState {
   gifs: Gif[];
@@ -26,8 +27,17 @@ export class RedditService {
       name: '',
       permalink: '',
       title: 'test gif',
-      thumnail: '',
+      thumbnail: '',
       comments: 0,
     },
   ]);
+
+  constructor() {
+    this.gifsLoaded$.pipe(takeUntilDestroyed()).subscribe((gifs) =>
+      this.state.update((state) => ({
+        ...state,
+        gifs: [...state.gifs, ...gifs],
+      }))
+    );
+  }
 }
