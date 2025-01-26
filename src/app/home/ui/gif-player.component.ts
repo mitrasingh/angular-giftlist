@@ -11,6 +11,17 @@ interface GifPlayerState {
     @if (status() === 'loading') {
     <mat-progress-spinner />
     }
+    <div>
+      <video
+        (click)="togglePlay$.next()"
+        #gifPlayer
+        playsinline
+        preload="none"
+        [loop]="true"
+        [muted]="true"
+        [src]="src()"
+      ></video>
+    </div>
   `,
   imports: [MatProgressSpinnerModule],
 })
