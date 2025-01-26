@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subject } from 'rxjs';
 interface GifPlayerState {
@@ -15,6 +15,8 @@ interface GifPlayerState {
   imports: [MatProgressSpinnerModule],
 })
 export class GifPlayerComponent {
+  src = input.required<string>();
+
   // state
   state = signal<GifPlayerState>({
     playing: false,
