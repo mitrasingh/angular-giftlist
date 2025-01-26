@@ -1,5 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Subject } from 'rxjs';
 interface GifPlayerState {
   playing: boolean;
   status: 'initial' | 'loading' | 'loaded';
@@ -23,4 +24,7 @@ export class GifPlayerComponent {
   // selectors
   playing = computed(() => this.state().playing);
   status = computed(() => this.state().status);
+
+  // source
+  togglePlay$ = new Subject<void>();
 }
