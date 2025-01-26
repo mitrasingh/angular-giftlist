@@ -16,6 +16,7 @@ interface GifPlayerState {
 })
 export class GifPlayerComponent {
   src = input.required<string>();
+  thumbnail = input.required<string>();
 
   // state
   state = signal<GifPlayerState>({
