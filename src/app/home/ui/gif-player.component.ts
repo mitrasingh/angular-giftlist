@@ -57,4 +57,8 @@ export class GifPlayerComponent {
     switchMap(() => this.videoElement$),
     switchMap(({ nativeElement }) => fromEvent(nativeElement, 'loadstart'))
   );
+
+  videoLoadComplete$ = this.videoElement$.pipe(
+    switchMap(({ nativeElement }) => fromEvent(nativeElement, 'loadeddata'))
+  );
 }
