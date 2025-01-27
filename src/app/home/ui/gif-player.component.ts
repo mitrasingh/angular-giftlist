@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Subject } from 'rxjs';
+import { fromEvent, Subject, switchMap } from 'rxjs';
 interface GifPlayerState {
   playing: boolean;
   status: 'initial' | 'loading' | 'loaded';
@@ -52,4 +52,9 @@ export class GifPlayerComponent {
 
   videoElement = viewChild.required<ElementRef<HTMLVideoElement>>('gifPlayer');
   videoElement$ = toObservable(this.videoElement);
+
+  videoLoadStart$ = this.togglePlay$.pipe(
+    switchMap(() => this.videoElement$),
+    switchMap(({ nativeElement }) => fromEvent(nativeElement, 'loadstart'))
+  );
 }
