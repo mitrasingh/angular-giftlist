@@ -6,6 +6,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subject } from 'rxjs';
 interface GifPlayerState {
@@ -50,4 +51,5 @@ export class GifPlayerComponent {
   togglePlay$ = new Subject<void>();
 
   videoElement = viewChild.required<ElementRef<HTMLVideoElement>>('gifPlayer');
+  videoElement$ = toObservable(this.videoElement);
 }
