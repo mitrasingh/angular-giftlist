@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { fromEvent, Subject, switchMap } from 'rxjs';
+import { fromEvent, Subject, switchMap, takeUntil } from 'rxjs';
 interface GifPlayerState {
   playing: boolean;
   status: 'initial' | 'loading' | 'loaded';
@@ -74,6 +74,12 @@ export class GifPlayerComponent {
       .pipe(takeUntilDestroyed())
       .subscribe(() =>
         this.state.update((state) => ({ ...state, status: 'loaded' }))
+      );
+
+    this.togglePlay$
+      .pipe(takeUntilDestroyed())
+      .subscribe(() =>
+        this.state.update((state) => ({ ...state, playing: !state.playing }))
       );
   }
 }
