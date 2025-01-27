@@ -6,7 +6,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { fromEvent, Subject, switchMap } from 'rxjs';
 interface GifPlayerState {
@@ -61,4 +61,19 @@ export class GifPlayerComponent {
   videoLoadComplete$ = this.videoElement$.pipe(
     switchMap(({ nativeElement }) => fromEvent(nativeElement, 'loadeddata'))
   );
+
+  constructor() {
+    // reducers
+    this.videoLoadStart$
+      .pipe(takeUntilDestroyed())
+      .subscribe(() =>
+        this.state.update((state) => ({ ...state, status: 'loading' }))
+      );
+
+    this.videoLoadComplete$
+      .pipe(takeUntilDestroyed())
+      .subscribe(() =>
+        this.state.update((state) => ({ ...state, status: 'loaded' }))
+      );
+  }
 }
