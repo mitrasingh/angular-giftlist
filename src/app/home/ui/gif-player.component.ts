@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  effect,
   ElementRef,
   input,
   signal,
@@ -81,5 +82,21 @@ export class GifPlayerComponent {
       .subscribe(() =>
         this.state.update((state) => ({ ...state, playing: !state.playing }))
       );
+
+    effect(() => {
+      const { nativeElement: video } = this.videoElement();
+      const playing = this.playing();
+      const status = this.status();
+
+      if (!video) return;
+
+      if (playing && status === 'initial') {
+        video.load();
+      }
+
+      if (status === 'loaded') {
+        playing ? video.play() : video.pause();
+      }
+    });
   }
 }
