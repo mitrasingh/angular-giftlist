@@ -1,15 +1,18 @@
 import { Component, input } from '@angular/core';
 import { Gif } from '../../shared/interfaces/gif';
+import { GifPlayerComponent } from './gif-player.component';
 
 @Component({
   selector: 'app-gif-list',
   template: `
     @for (gif of gifs(); track gif.permalink) {
     <div>
-      {{ gif.title }}
+      <app-gif-player [src]="gif.src" [thumbnail]="gif.thumbnail">
+      </app-gif-player>
     </div>
     }
   `,
+  imports: [GifPlayerComponent],
 })
 export class GiftListComponent {
   gifs = input.required<Gif[]>();
