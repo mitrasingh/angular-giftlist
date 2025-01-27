@@ -1,4 +1,11 @@
-import { Component, computed, input, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subject } from 'rxjs';
 interface GifPlayerState {
@@ -41,4 +48,6 @@ export class GifPlayerComponent {
 
   // source
   togglePlay$ = new Subject<void>();
+
+  videoElement = viewChild.required<ElementRef<HTMLVideoElement>>('gifPlayer');
 }
