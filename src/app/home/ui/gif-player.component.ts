@@ -18,7 +18,7 @@ interface GifPlayerState {
   selector: 'app-gif-player',
   template: `
     @if (status() === 'loading') {
-    <mat-progress-spinner />
+    <mat-progress-spinner mode="indeterminate" diameter="50" />
     }
     <div
       class="preload-background"
