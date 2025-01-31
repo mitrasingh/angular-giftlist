@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RedditService } from '../shared/data/reddit.service';
-import { GiftListComponent } from './ui/gif-list.component';
+import { GifListComponent } from './ui/gif-list.component';
 @Component({
   selector: 'app-home',
   template: `
@@ -10,7 +10,7 @@ import { GiftListComponent } from './ui/gif-list.component';
       class="grid-container"
     ></app-gif-list>
   `,
-  imports: [GiftListComponent],
+  imports: [GifListComponent],
 })
 export default class HomeComponent {
   redditService = inject(RedditService);
