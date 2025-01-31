@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { Gif } from '../../shared/interfaces/gif';
+import { Gif } from '../../shared/interfaces';
 import { GifPlayerComponent } from './gif-player.component';
 
 @Component({
@@ -14,6 +14,6 @@ import { GifPlayerComponent } from './gif-player.component';
   `,
   imports: [GifPlayerComponent],
 })
-export class GiftListComponent {
+export class GifListComponent {
   gifs = input.required<Gif[]>();
 }
