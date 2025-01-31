@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { Gif } from '../interfaces/gif';
+import { Gif } from '../../shared/interfaces';
 import { catchError, EMPTY, map, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RedditResponse } from '../interfaces/reddit-response';
