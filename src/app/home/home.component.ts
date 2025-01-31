@@ -6,7 +6,7 @@ import { GiftListComponent } from './ui/gif-list.component';
   template: `
     <h1>Home</h1>
     <app-gif-list
-      [gifs]="this.redditService.gifs()"
+      [gifs]="redditService.gifs()"
       class="grid-container"
     ></app-gif-list>
   `,
