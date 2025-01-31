@@ -13,7 +13,7 @@ interface RedditPostData {
   title: string;
   media: RedditMedia;
   url: string;
-  thumnail: string;
+  thumbnail: string;
   num_comments: number;
 }
 
