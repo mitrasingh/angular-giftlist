@@ -25,17 +25,7 @@ export class RedditService {
   gifs = computed(() => this.state().gifs);
 
   // sources
-  gifsLoaded$ = of([
-    {
-      src: '',
-      author: '',
-      name: '',
-      permalink: '',
-      title: 'test gif',
-      thumbnail: '',
-      comments: 0,
-    },
-  ]);
+  gifsLoaded$ = this.fetchFromReddit('gifs');
 
   constructor() {
     this.gifsLoaded$.pipe(takeUntilDestroyed()).subscribe((gifs) =>
