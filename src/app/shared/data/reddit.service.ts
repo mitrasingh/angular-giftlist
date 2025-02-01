@@ -29,6 +29,9 @@ export class RedditService {
 
   // selectors
   gifs = computed(() => this.state().gifs);
+  error = computed(() => this.state().error);
+  loading = computed(() => this.state().loading);
+  lastKnownGif = computed(() => this.state().lastKnownGif);
 
   // sources
   gifsLoaded$ = this.fetchFromReddit('gifs');
