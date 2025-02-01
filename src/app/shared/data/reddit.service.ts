@@ -8,6 +8,9 @@ import { RedditPost } from '../interfaces/reddit-post';
 
 export interface GifsState {
   gifs: Gif[];
+  error: string | null;
+  loading: boolean;
+  lastKnownGif: string | null;
 }
 
 @Injectable({
@@ -19,6 +22,9 @@ export class RedditService {
   // state
   private state = signal<GifsState>({
     gifs: [],
+    error: null,
+    loading: true,
+    lastKnownGif: null,
   });
 
   // selectors
