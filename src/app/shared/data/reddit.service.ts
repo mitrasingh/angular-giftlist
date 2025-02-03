@@ -1,6 +1,14 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Gif } from '../../shared/interfaces';
-import { catchError, EMPTY, map, of } from 'rxjs';
+import {
+  catchError,
+  concatMap,
+  EMPTY,
+  map,
+  of,
+  startWith,
+  Subject,
+} from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RedditResponse } from '../interfaces/reddit-response';
 import { HttpClient } from '@angular/common/http';
@@ -34,25 +42,47 @@ export class RedditService {
   lastKnownGif = computed(() => this.state().lastKnownGif);
 
   // sources
-  gifsLoaded$ = this.fetchFromReddit('gifs');
+  // gifsLoaded$ = this.fetchFromReddit('gifs');
+  pagination$ = new Subject<string | null>();
+  private gifsLoaded$ = this.pagination$.pipe(
+    startWith(null),
+    concatMap((lastKnownGif) => this.fetchFromReddit('gifs', lastKnownGif, 20))
+  );
 
   constructor() {
-    this.gifsLoaded$.pipe(takeUntilDestroyed()).subscribe((gifs) =>
+    this.gifsLoaded$.pipe(takeUntilDestroyed()).subscribe((response) =>
       this.state.update((state) => ({
         ...state,
-        gifs: [...state.gifs, ...gifs],
+        gifs: [...state.gifs, ...response.gifs],
+        loading: false,
+        lastKnownGif: response.lastKnownGif,
       }))
     );
   }
 
-  private fetchFromReddit(subreddit: string) {
+  private fetchFromReddit(
+    subreddit: string,
+    after: string | null,
+    gifsRequired: number
+  ) {
     return this.http
       .get<RedditResponse>(
-        `https://www.reddit.com/r/${subreddit}/hot/.json?limit=100`
+        `https://www.reddit.com/r/${subreddit}/hot/.json?limit=100` +
+          (after ? `&after=${after}` : '')
       )
       .pipe(
         catchError((err) => EMPTY),
-        map((response) => this.convertRedditPostsToGifs(response.data.children))
+        map((response) => {
+          const posts = response.data.children;
+          const lastKnownGif = posts.length
+            ? posts[posts.length - 1].data.name
+            : null;
+          return {
+            gifs: this.convertRedditPostsToGifs(posts),
+            gifsRequired,
+            lastKnownGif,
+          };
+        })
       );
   }
 
