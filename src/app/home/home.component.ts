@@ -5,7 +5,6 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 @Component({
   selector: 'app-home',
   template: `
-    <h1>Home</h1>
     <app-gif-list
       [gifs]="redditService.gifs()"
       infiniteScroll
