@@ -34,7 +34,6 @@ export class RedditService {
   lastKnownGif = computed(() => this.state().lastKnownGif);
 
   // sources
-  // gifsLoaded$ = this.fetchFromReddit('gifs');
   pagination$ = new Subject<string | null>();
   private gifsLoaded$ = this.pagination$.pipe(
     startWith(null),
