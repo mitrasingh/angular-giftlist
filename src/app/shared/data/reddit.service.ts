@@ -1,14 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Gif } from '../../shared/interfaces';
-import {
-  catchError,
-  concatMap,
-  EMPTY,
-  map,
-  of,
-  startWith,
-  Subject,
-} from 'rxjs';
+import { catchError, concatMap, EMPTY, map, startWith, Subject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RedditResponse } from '../interfaces/reddit-response';
 import { HttpClient } from '@angular/common/http';
