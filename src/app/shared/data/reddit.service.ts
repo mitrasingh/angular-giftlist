@@ -1,6 +1,15 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Gif } from '../../shared/interfaces';
-import { catchError, concatMap, EMPTY, map, startWith, Subject } from 'rxjs';
+import {
+  catchError,
+  concatMap,
+  debounceTime,
+  distinctUntilChanged,
+  EMPTY,
+  map,
+  startWith,
+  Subject,
+} from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RedditResponse } from '../interfaces/reddit-response';
 import { HttpClient } from '@angular/common/http';
@@ -145,4 +154,12 @@ export class RedditService {
     // No useable formats available
     return null;
   }
+
+  // valueChanges property is an observable stream that will emit every time value changes
+  private subredditChanged$ = this.subredditFormControl.valueChanges.pipe(
+    debounceTime(300),
+    distinctUntilChanged(),
+    startWith('gifs'),
+    map((subreddit) => (subreddit.length ? subreddit : 'gifs'))
+  );
 }
