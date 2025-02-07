@@ -53,9 +53,19 @@ export class RedditService {
       to complete before addressing the next submission.
   */
   pagination$ = new Subject<string | null>();
+
+  // gifLoaded$ needs to incorporate subredditChanged$
   private gifsLoaded$ = this.pagination$.pipe(
     startWith(null),
     concatMap((lastKnownGif) => this.fetchFromReddit('gifs', lastKnownGif, 20))
+  );
+
+  // valueChanges property (which is from FormControl) is an observable stream that will emit every time value changes
+  private subredditChanged$ = this.subredditFormControl.valueChanges.pipe(
+    debounceTime(300),
+    distinctUntilChanged(),
+    startWith('gifs'),
+    map((subreddit) => (subreddit.length ? subreddit : 'gifs'))
   );
 
   constructor() {
@@ -154,12 +164,4 @@ export class RedditService {
     // No useable formats available
     return null;
   }
-
-  // valueChanges property is an observable stream that will emit every time value changes
-  private subredditChanged$ = this.subredditFormControl.valueChanges.pipe(
-    debounceTime(300),
-    distinctUntilChanged(),
-    startWith('gifs'),
-    map((subreddit) => (subreddit.length ? subreddit : 'gifs'))
-  );
 }
