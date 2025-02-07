@@ -9,6 +9,8 @@ import {
   map,
   startWith,
   Subject,
+  switchMap,
+  take,
 } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RedditResponse } from '../interfaces/reddit-response';
@@ -54,11 +56,10 @@ export class RedditService {
   */
   pagination$ = new Subject<string | null>();
 
-  // gifLoaded$ needs to incorporate subredditChanged$
-  private gifsLoaded$ = this.pagination$.pipe(
-    startWith(null),
-    concatMap((lastKnownGif) => this.fetchFromReddit('gifs', lastKnownGif, 20))
-  );
+  // private gifsLoaded$ = this.pagination$.pipe(
+  //   startWith(null),
+  //   concatMap((lastKnownGif) => this.fetchFromReddit('gifs', lastKnownGif, 20))
+  // );
 
   // valueChanges property (which is from FormControl) is an observable stream that will emit every time value changes
   private subredditChanged$ = this.subredditFormControl.valueChanges.pipe(
@@ -66,6 +67,17 @@ export class RedditService {
     distinctUntilChanged(),
     startWith('gifs'),
     map((subreddit) => (subreddit.length ? subreddit : 'gifs'))
+  );
+
+  private gifsLoaded$ = this.subredditChanged$.pipe(
+    switchMap((subreddit) =>
+      this.pagination$.pipe(
+        startWith(null),
+        concatMap((lastKnownGif) =>
+          this.fetchFromReddit(subreddit, lastKnownGif, 20)
+        )
+      )
+    )
   );
 
   constructor() {
@@ -77,6 +89,15 @@ export class RedditService {
         lastKnownGif: response.lastKnownGif,
       }))
     );
+
+    this.subredditChanged$.pipe(takeUntilDestroyed()).subscribe(() => {
+      this.state.update((state) => ({
+        ...state,
+        loading: true,
+        gifs: [],
+        lastKnownGif: null,
+      }));
+    });
   }
 
   private fetchFromReddit(
