@@ -5,6 +5,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RedditResponse } from '../interfaces/reddit-response';
 import { HttpClient } from '@angular/common/http';
 import { RedditPost } from '../interfaces/reddit-post';
+import { FormControl } from '@angular/forms';
 
 export interface GifsState {
   gifs: Gif[];
@@ -18,6 +19,7 @@ export interface GifsState {
 })
 export class RedditService {
   private http = inject(HttpClient);
+  subredditFormControl = new FormControl();
 
   // state
   private state = signal<GifsState>({
