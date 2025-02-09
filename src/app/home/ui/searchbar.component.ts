@@ -27,6 +27,18 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatInputModule,
   ],
+  styles: [
+    `
+      mat-toolbar {
+        height: 80px;
+      }
+
+      mat-form-field {
+        width: 100%;
+        padding-top: 20px;
+      }
+    `,
+  ],
 })
 export class SearchBarComponent {
   subredditFormControl = input.required<FormControl>();
