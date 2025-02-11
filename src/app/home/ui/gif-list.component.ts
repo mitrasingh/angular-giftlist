@@ -1,12 +1,16 @@
 import { Component, input } from '@angular/core';
 import { Gif } from '../../shared/interfaces';
 import { GifPlayerComponent } from './gif-player.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-gif-list',
   template: `
     @for (gif of gifs(); track gif.permalink){
     <div>
+      <mat-toolbar>
+        <span>{{ gif.name }}</span>
+      </mat-toolbar>
       <app-gif-player
         [src]="gif.src"
         [thumbnail]="gif.thumbnail"
@@ -14,7 +18,7 @@ import { GifPlayerComponent } from './gif-player.component';
     </div>
     }
   `,
-  imports: [GifPlayerComponent],
+  imports: [GifPlayerComponent, MatToolbarModule],
 })
 export class GifListComponent {
   gifs = input.required<Gif[]>();
