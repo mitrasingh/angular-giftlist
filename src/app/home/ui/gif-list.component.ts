@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { Gif } from '../../shared/interfaces';
 import { GifPlayerComponent } from './gif-player.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -21,5 +21,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   imports: [GifPlayerComponent, MatToolbarModule],
 })
 export class GifListComponent {
+  windowToken = inject(Window);
   gifs = input.required<Gif[]>();
 }
