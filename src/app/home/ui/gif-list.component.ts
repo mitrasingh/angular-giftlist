@@ -17,6 +17,8 @@ import { WINDOW } from '../../shared/utils/injection-tokens';
         [thumbnail]="gif.thumbnail"
       ></app-gif-player>
     </div>
+    } @empty {
+    <p>No gifs found</p>
     }
   `,
   imports: [GifPlayerComponent, MatToolbarModule],
