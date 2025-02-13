@@ -3,6 +3,7 @@ import { Gif } from '../../shared/interfaces';
 import { GifPlayerComponent } from './gif-player.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { WINDOW } from '../../shared/utils/injection-tokens';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-gif-list',
@@ -19,14 +20,16 @@ import { WINDOW } from '../../shared/utils/injection-tokens';
         <button
           mat-icon-button
           (click)="window.open('https://reddit.com/' + gif.permalink)"
-        ></button>
+        >
+          <mat-icon>comment</mat-icon>
+        </button>
       </mat-toolbar>
     </div>
     } @empty {
     <p>No gifs found</p>
     }
   `,
-  imports: [GifPlayerComponent, MatToolbarModule],
+  imports: [GifPlayerComponent, MatToolbarModule, MatIconModule],
 })
 export class GifListComponent {
   window = inject(WINDOW);
