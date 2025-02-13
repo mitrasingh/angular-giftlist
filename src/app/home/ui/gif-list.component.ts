@@ -9,13 +9,18 @@ import { WINDOW } from '../../shared/utils/injection-tokens';
   template: `
     @for (gif of gifs(); track gif.permalink){
     <div>
-      <mat-toolbar>
-        <span>{{ gif.title }}</span>
-      </mat-toolbar>
       <app-gif-player
         [src]="gif.src"
         [thumbnail]="gif.thumbnail"
       ></app-gif-player>
+      <mat-toolbar>
+        <span>{{ gif.title }}</span>
+        <span class="toolbar-spacer"></span>
+        <button
+          mat-icon-button
+          (click)="window.open('https://reddit.com/' + gif.permalink)"
+        ></button>
+      </mat-toolbar>
     </div>
     } @empty {
     <p>No gifs found</p>
