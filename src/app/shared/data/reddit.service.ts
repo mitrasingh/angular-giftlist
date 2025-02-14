@@ -13,7 +13,7 @@ import {
 } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RedditResponse } from '../interfaces/reddit-response';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { RedditPost } from '../interfaces/reddit-post';
 import { FormControl } from '@angular/forms';
 
@@ -93,6 +93,14 @@ export class RedditService {
         error,
       }))
     );
+  }
+
+  private handleError(err: HttpErrorResponse) {
+    if (err.status === 404 && err.url) {
+      this.error$.next(`Failed to load gifs for /r/${err.url.split('/')[4]}`);
+      return;
+    }
+    this.error$.next(err.statusText);
   }
 
   private fetchFromReddit(
