@@ -86,6 +86,13 @@ export class RedditService {
         lastKnownGif: null,
       }));
     });
+
+    this.error$.pipe(takeUntilDestroyed()).subscribe((error) =>
+      this.state.update((state) => ({
+        ...state,
+        error,
+      }))
+    );
   }
 
   private fetchFromReddit(
