@@ -10,7 +10,6 @@ import {
   startWith,
   Subject,
   switchMap,
-  take,
 } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RedditResponse } from '../interfaces/reddit-response';
@@ -47,21 +46,8 @@ export class RedditService {
   lastKnownGif = computed(() => this.state().lastKnownGif);
 
   // sources
-  /*
-    - get stream of values from the pagination$ steam
-    - will start that stream with one single emission of null automatically
-    - it will take those emissions and then switch to the fetchFromReddit stream
-      but we will use concatMap because we want to wait for each request to Reddit 
-      to complete before addressing the next submission.
-  */
   pagination$ = new Subject<string | null>();
-
   private error$ = new Subject<string | null>();
-
-  // private gifsLoaded$ = this.pagination$.pipe(
-  //   startWith(null),
-  //   concatMap((lastKnownGif) => this.fetchFromReddit('gifs', lastKnownGif, 20))
-  // );
 
   // valueChanges property (which is from FormControl) is an observable stream that will emit every time value changes
   private subredditChanged$ = this.subredditFormControl.valueChanges.pipe(
