@@ -56,6 +56,8 @@ export class RedditService {
   */
   pagination$ = new Subject<string | null>();
 
+  private error$ = new Subject<string | null>();
+
   // private gifsLoaded$ = this.pagination$.pipe(
   //   startWith(null),
   //   concatMap((lastKnownGif) => this.fetchFromReddit('gifs', lastKnownGif, 20))
