@@ -114,7 +114,10 @@ export class RedditService {
           (after ? `&after=${after}` : '')
       )
       .pipe(
-        catchError((err) => EMPTY),
+        catchError((err) => {
+          this.handleError(err);
+          return EMPTY;
+        }),
         map((response) => {
           const posts = response.data.children;
           const lastKnownGif = posts.length
